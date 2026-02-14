@@ -1,78 +1,288 @@
+
 <!DOCTYPE html>
 <html lang="ar">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>اختيار الوجبات الأسبوعية</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            direction: rtl;
-            text-align: right;
-            margin: 20px;
-            background-color: #f4f4f9;
-            color: #333;
-        }
-        .container {
-            max-width: 900px;
-            margin: auto;
-            background: #fff;
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-        h1 {
-            text-align: center;
-            color: #007BFF;
-        }
-        label {
-            font-weight: bold;
-            margin-top: 10px;
-        }
-        input, select {
-            width: 100%;
-            padding: 10px;
-            margin: 5px 0 15px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-        }
-        table, th, td {
-            border: 1px solid #ddd;
-        }
-        th {
-            background-color: #007BFF;
-            color: #fff;
-            padding: 10px;
-        }
-        td {
-            padding: 10px;
-        }
-        .meal-select, .carb-select, .snack-select, .note-input {
-            margin-bottom: 10px;
-            width: 95%;
-        }
-        .snack-count-section {
-            margin-top: 10px;
-        }
-        .whatsapp-button {
-            background-color: #25D366;
-            color: white;
-            border: none;
-            padding: 15px;
-            cursor: pointer;
-            border-radius: 5px;
-            font-size: 16px;
-            width: 100%;
-        }
-        .whatsapp-button:hover {
-            background-color: #1ebf57;
-        }
-    </style>
+/* ==========================================================
+   RAMADAN PRO PREMIUM (Tajawal) + LANTERNS + STARS
+   + FULLWIDTH (NO OUTER MARGINS) + CLEAR DROPDOWNS
+   ========================================================== */
+
+:root{
+  --bg1:#FBF7F2;
+  --bg2:#F4EFE8;
+  --card:#FFFFFF;
+  --text:#1B1B1B;
+  --muted:rgba(27,27,27,.62);
+  --gold:#C07A4A;
+  --gold2:#E6C29A;
+  --line:rgba(30,18,12,.12);
+  --shadow:0 16px 42px rgba(0,0,0,.10);
+  --shadow2:0 10px 26px rgba(0,0,0,.08);
+  --radius:18px;
+  --sparkle: rgba(230,194,154,.9);
+}
+
+/* Base (NO margins) */
+html,body{
+  width:100%;
+  max-width:100%;
+  margin:0 !important;
+  padding:0 !important;
+  background:
+    radial-gradient(1100px 700px at 80% -10%, rgba(192,122,74,.16), transparent 55%),
+    radial-gradient(900px 600px at 10% 110%, rgba(192,122,74,.12), transparent 60%),
+    linear-gradient(180deg,var(--bg1),var(--bg2)) !important;
+  color:var(--text)!important;
+  font-family: 'Tajawal', system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+  direction: rtl;
+  text-align: right;
+  overflow-x:hidden;
+}
+body{ position:relative; }
+
+/* Subtle geometric pattern */
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  opacity:.12;
+  background:
+    repeating-linear-gradient(60deg, rgba(192,122,74,.10) 0 1px, transparent 1px 22px),
+    repeating-linear-gradient(-60deg, rgba(192,122,74,.08) 0 1px, transparent 1px 22px);
+  mask-image: radial-gradient(circle at 55% 38%, rgba(0,0,0,.95), transparent 72%);
+  z-index:0;
+}
+
+/* Crescent */
+body::after{
+  content:"";
+  position:fixed;
+  top:-70px;
+  left:-70px;
+  width:360px;
+  height:360px;
+  pointer-events:none;
+  opacity:.18;
+  background:
+    radial-gradient(circle at 55% 45%, rgba(230,194,154,.55), transparent 55%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='420' height='420' viewBox='0 0 420 420'%3E%3Cdefs%3E%3CradialGradient id='g' cx='50%25' cy='40%25' r='70%25'%3E%3Cstop offset='0%25' stop-color='%23E6C29A' stop-opacity='0.95'/%3E%3Cstop offset='70%25' stop-color='%23C07A4A' stop-opacity='0.9'/%3E%3Cstop offset='100%25' stop-color='%239C5D35' stop-opacity='0.85'/%3E%3C/radialGradient%3E%3C/defs%3E%3Cpath d='M270 70c-58 10-102 61-102 122 0 67 54 121 121 121 23 0 45-6 64-17-24 44-71 74-125 74-79 0-143-64-143-143 0-74 55-136 127-145 24-3 46 0 58-12z' fill='url(%23g)'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;
+  background-size:contain;
+  z-index:0;
+  filter: drop-shadow(0 18px 28px rgba(0,0,0,.12));
+}
+
+/* ===== Decor layers ===== */
+.ramadan-decor{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  z-index:0;
+}
+
+/* Stars */
+.stars{
+  position:absolute;
+  top:0;
+  left:0;
+  width:420px;
+  height:320px;
+  opacity:.85;
+  filter: drop-shadow(0 10px 18px rgba(0,0,0,.10));
+}
+.star{
+  position:absolute;
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background: radial-gradient(circle at 30% 30%, #fff, var(--sparkle) 55%, rgba(230,194,154,0) 70%);
+  animation: twinkle 2.8s infinite ease-in-out;
+  opacity:.55;
+}
+.star.s2{ width:4px; height:4px; animation-duration:3.4s; opacity:.45;}
+.star.s3{ width:7px; height:7px; animation-duration:2.2s; opacity:.6;}
+.star.s4{ width:3px; height:3px; animation-duration:4.1s; opacity:.35;}
+@keyframes twinkle{
+  0%,100%{ transform: scale(.9); opacity:.35; filter: blur(.2px);}
+  50%{ transform: scale(1.25); opacity:.85; filter: blur(0px);}
+}
+
+/* Lanterns */
+.lanterns{
+  position:absolute;
+  top:-10px;
+  left:0;
+  right:0;
+  height:220px;
+  overflow:visible;
+}
+.lantern{
+  position:absolute;
+  top:-4px;
+  width:74px;
+  height:140px;
+  transform-origin: top center;
+  animation: sway 3.6s ease-in-out infinite;
+  opacity:.9;
+  filter: drop-shadow(0 18px 26px rgba(0,0,0,.10));
+}
+.lantern::before{
+  content:"";
+  position:absolute;
+  top:-70px;
+  left:50%;
+  width:2px;
+  height:70px;
+  transform:translateX(-50%);
+  background: linear-gradient(180deg, rgba(192,122,74,.10), rgba(192,122,74,.55));
+}
+.lantern svg{ width:100%; height:100%; display:block; }
+@keyframes sway{
+  0%,100%{ transform: rotate(-2.5deg) translateY(0); }
+  50%{ transform: rotate(2.5deg) translateY(2px); }
+}
+.lantern .glow{ animation: glow 2.8s ease-in-out infinite; }
+@keyframes glow{ 0%,100%{ opacity:.38; } 50%{ opacity:.65; } }
+
+/* ===== Layout ===== */
+.container{
+  position:relative;
+  z-index:1;
+  max-width: 980px;
+  margin: 14px auto;
+  background: rgba(255,255,255,.78);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  box-shadow: var(--shadow);
+  padding: 18px 16px;
+}
+h1{
+  margin:0 0 14px;
+  font-weight:900;
+  font-size:22px;
+}
+label{
+  display:block;
+  margin:10px 0 6px;
+  font-weight:800;
+  color:rgba(27,27,27,.86);
+  font-size:14px;
+}
+
+/* Inputs */
+input, select{
+  width:100%;
+  padding:11px 12px;
+  border:1px solid rgba(30,18,12,.16);
+  border-radius:14px;
+  background:rgba(255,255,255,.95);
+  box-shadow:0 6px 14px rgba(0,0,0,.04);
+  outline:none;
+  transition:.18s ease;
+  font-family: inherit;
+  font-weight:700;
+}
+input::placeholder{ color: rgba(27,27,27,.45); }
+input:focus, select:focus{
+  border-color:rgba(192,122,74,.55);
+  box-shadow:0 0 0 4px rgba(192,122,74,.16), 0 10px 20px rgba(0,0,0,.06);
+}
+
+/* Dropdowns clearer */
+select{
+  cursor:pointer;
+  padding-left:44px; /* arrow area (rtl) */
+  -webkit-appearance:none;
+  -moz-appearance:none;
+  appearance:none;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.98), rgba(255,255,255,.92)),
+    radial-gradient(18px 18px at 14px 50%, rgba(192,122,74,.18), transparent 60%),
+    linear-gradient(135deg, rgba(192,122,74,.85), rgba(230,194,154,.85));
+  background-repeat:no-repeat;
+  background-size: 100% 100%, 36px 36px, 10px 10px;
+  background-position: 0 0, 10px 50%, 22px 50%;
+}
+select option{ font-weight:700; }
+select option[disabled]{ color: rgba(27,27,27,.55); }
+
+/* Table */
+table{
+  width:100%;
+  border-collapse:separate;
+  border-spacing:0;
+  margin-top:18px;
+  overflow:hidden;
+  border-radius: 18px;
+  box-shadow: var(--shadow2);
+  background: var(--card);
+}
+table, th, td{ border:1px solid rgba(30,18,12,.10); }
+th, td{ padding:12px 10px; text-align:center; vertical-align:top; }
+thead th{
+  background: linear-gradient(180deg, rgba(192,122,74,.18), rgba(192,122,74,.06));
+  font-weight:900;
+}
+tbody td{ background: rgba(255,255,255,.94); }
+
+.meal-select, .carb-select{ display:block; margin-bottom:10px; width:100%; }
+.note-input{ width:100%; margin: 6px auto; display:block; }
+
+.snack-section{
+  margin-top:10px;
+  padding-top:10px;
+  border-top:1px dashed rgba(192,122,74,.28);
+}
+
+/* Button */
+.whatsapp-button{
+  width:100%;
+  margin-top:14px;
+  background:#25D366;
+  color:#fff;
+  border:none;
+  padding:14px 16px;
+  cursor:pointer;
+  border-radius:16px;
+  font-size:16px;
+  font-weight:900;
+  letter-spacing:.2px;
+  box-shadow:0 16px 34px rgba(37,211,102,.18);
+  position:relative;
+  overflow:hidden;
+  transition: transform .15s ease, box-shadow .15s ease;
+  font-family: inherit;
+}
+.whatsapp-button::before{
+  content:"";
+  position:absolute;
+  inset:-40px -60px;
+  background: radial-gradient(circle at 20% 30%, rgba(255,255,255,.35), transparent 45%),
+              radial-gradient(circle at 80% 70%, rgba(255,255,255,.22), transparent 50%);
+  transform: rotate(12deg);
+  opacity:.9;
+}
+.whatsapp-button:hover{
+  transform: translateY(-2px);
+  box-shadow:0 22px 44px rgba(37,211,102,.22);
+}
+.whatsapp-button:active{ transform: translateY(0); }
+
+/* Responsive */
+@media (max-width:760px){
+  .container{ margin: 10px 10px; padding:16px 12px; }
+}
+@media (max-width:520px){
+  .container{ margin: 8px 8px; padding:14px 10px; border-radius:18px; }
+}
+</style>
 </head>
 <body>
     <div class="container">
@@ -171,12 +381,120 @@
 
     <script>
         const snackOptionsByDay = {
-            Saturday: ['سلطة بروكلي', 'تبولة', 'شوكليت مافن', 'تشيز كيك فراولة', 'كوكيز الشوفان', 'تشيز كيك مانجو', 'تشيز كيك بلو بيري', 'تشيز كيك روز بيري ', 'وافل بروتين'],
-            Sunday: ['سلطة القرع المشوي', 'سلطة فراولة', 'سلطة جرجير', 'فانيلا مافن', 'كرات بروتين', 'تشيز كيك مانجو', 'تشيز كيك بلو بيري', 'تشيز كيك روز بيري ', 'وافل بروتين'],
-            Monday: ['سلطة يونانية', 'سلطة البطيخ', 'كاسترد فواكة', 'مانجو مافن', 'كرات بروتين', 'تشيز كيك مانجو', 'تشيز كيك بلو بيري', 'تشيز كيك روز بيري ', 'وافل بروتين'],
-            Tuesday: ['سلطة بروكلي', 'تبولة', 'فانيلا مافن', 'تشيز كيك فراولة', 'كرات بروتين', 'تشيز كيك مانجو', 'تشيز كيك بلو بيري', 'تشيز كيك روز بيري ', 'وافل بروتين'],
-            Wednesday: ['سلطة فراولة', 'سلطة يونانية', 'سلطة جرجير', 'كاسترد فواكة', 'شوكليت مافن', 'تشيز كيك مانجو', 'تشيز كيك بلو بيري', 'تشيز كيك روز بيري ', 'وافل بروتين'],
-            Thursday: ['سلطة البطيخ مع الفيتا', 'سلطة القرع المشوي', 'كوكيز الشوفان', 'مانجو مافن', 'كرات بروتين', 'تشيز كيك مانجو', 'تشيز كيك بلو بيري', 'تشيز كيك روز بيري ', 'وافل بروتين']
+            Saturday: [
+                "سلطة بروكلي",
+                "تبولة",
+                "شوكليت مافن",
+                "تشيز كيك فراولة",
+                "كرات بروتين VIP",
+                "تشيز كيك مانجو VIP",
+                "تشيز كيك بلو بيري VIP",
+                "تشيز كيك روز بيري VIP",
+                "وافل بروتين VIP",
+                "##SEP##____ السناكات الرمضانية ____",
+                "سمبوسك جبنة — Cheese Sambosa",
+                "سمبوسك لحمة — Beef Sambosa",
+                "سبرنج روول دجاج — Chicken Spring Rolls",
+                "سبرنج روول خضار — Vegetable Spring Rolls",
+                "شوربة لسان العصفور — Orzo Soup",
+                "شوربة الكريمة — Cream Soup"
+            ],
+            Sunday: [
+                "سلطة القرع المشوي",
+                "سلطة فراولة",
+                "سلطة جرجير",
+                "فانيلا مافن",
+                "كوكيز الشوفان",
+                "كرات بروتين VIP",
+                "تشيز كيك مانجو VIP",
+                "تشيز كيك بلو بيري VIP",
+                "تشيز كيك روز بيري VIP",
+                "وافل بروتين VIP",
+                "##SEP##____ السناكات الرمضانية ____",
+                "سمبوسك جبنة — Cheese Sambosa",
+                "سمبوسك لحمة — Beef Sambosa",
+                "سبرنج روول دجاج — Chicken Spring Rolls",
+                "سبرنج روول خضار — Vegetable Spring Rolls",
+                "شوربة لسان العصفور — Orzo Soup",
+                "شوربة الكريمة — Cream Soup"
+            ],
+            Monday: [
+                "سلطة بي فيت",
+                "سلطة يونانية",
+                "سلطة البطيخ",
+                "كاسترد فواكة",
+                "مانجو مافن",
+                "كرات بروتين VIP",
+                "تشيز كيك مانجو VIP",
+                "تشيز كيك بلو بيري VIP",
+                "تشيز كيك روز بيري VIP",
+                "وافل بروتين VIP",
+                "##SEP##____ السناكات الرمضانية ____",
+                "سمبوسك جبنة — Cheese Sambosa",
+                "سمبوسك لحمة — Beef Sambosa",
+                "سبرنج روول دجاج — Chicken Spring Rolls",
+                "سبرنج روول خضار — Vegetable Spring Rolls",
+                "شوربة لسان العصفور — Orzo Soup",
+                "شوربة الكريمة — Cream Soup"
+            ],
+            Tuesday: [
+                "سلطة البقوليات",
+                "سلطة بروكلي",
+                "تبولة",
+                "فانيلا مافن",
+                "تشيز كيك فراولة",
+                "كرات بروتين VIP",
+                "تشيز كيك مانجو VIP",
+                "تشيز كيك بلو بيري VIP",
+                "تشيز كيك روز بيري VIP",
+                "وافل بروتين VIP",
+                "##SEP##____ السناكات الرمضانية ____",
+                "سمبوسك جبنة — Cheese Sambosa",
+                "سمبوسك لحمة — Beef Sambosa",
+                "سبرنج روول دجاج — Chicken Spring Rolls",
+                "سبرنج روول خضار — Vegetable Spring Rolls",
+                "شوربة لسان العصفور — Orzo Soup",
+                "شوربة الكريمة — Cream Soup"
+            ],
+            Wednesday: [
+                "سلطة بي فيت",
+                "سلطة فراولة",
+                "سلطة يونانية",
+                "سلطة جرجير",
+                "كاسترد فواكة",
+                "شوكليت مافن",
+                "كرات بروتين VIP",
+                "تشيز كيك مانجو VIP",
+                "تشيز كيك بلو بيري VIP",
+                "تشيز كيك روز بيري VIP",
+                "وافل بروتين VIP",
+                "##SEP##____ السناكات الرمضانية ____",
+                "سمبوسك جبنة — Cheese Sambosa",
+                "سمبوسك لحمة — Beef Sambosa",
+                "سبرنج روول دجاج — Chicken Spring Rolls",
+                "سبرنج روول خضار — Vegetable Spring Rolls",
+                "شوربة لسان العصفور — Orzo Soup",
+                "شوربة الكريمة — Cream Soup"
+            ],
+            Thursday: [
+                "سلطة البقوليات",
+                "سلطة البطيخ مع الفيتا",
+                "سلطة القرع المشوي",
+                "كوكيز الشوفان",
+                "مانجو مافن",
+                "كرات بروتين VIP",
+                "تشيز كيك مانجو VIP",
+                "تشيز كيك بلو بيري VIP",
+                "تشيز كيك روز بيري VIP",
+                "وافل بروتين VIP",
+                "##SEP##____ السناكات الرمضانية ____",
+                "سمبوسك جبنة — Cheese Sambosa",
+                "سمبوسك لحمة — Beef Sambosa",
+                "سبرنج روول دجاج — Chicken Spring Rolls",
+                "سبرنج روول خضار — Vegetable Spring Rolls",
+                "شوربة لسان العصفور — Orzo Soup",
+                "شوربة الكريمة — Cream Soup"
+            ]
         };
 
         const carbOptions = `
@@ -222,96 +540,105 @@
                     mealSelect.className = "meal-select";
                     mealSelect.name = `meal${day}${i}`;
                     mealSelect.innerHTML = `
-                          <option value="0">اختر الوجبة</option>
-                        <option value="Flex Fuel(Bowl) ">فليكس فيول صحن</option>
-                        <option value="Flex Fuel(Pizza) ">فليكس فيول بيتزا</option>
-                            <option value="The Western(Bowl) ">ذا ويسترن صحن</option>
-                            <option value="The Western(Wrap) ">ذا ويسترن راب</option>
-                            <option value="The Philly(Bowl) "> ذا فيلي صحن</option>
-                            <option value="The Philly(Wrap) ">ذا فيلي راب</option>
-                            <option value="The Garden(Bowl) ">ذا جاردن صحن</option>
-                            <option value="The Garden(Wrap) ">ذا جاردن راب</option>
-                            <option value="Hallomi Sandwich">حلوم ساندوتش</option>
-                            <option value="Hallomi Zater">حلوم زعتر</option>
-                            <option value="Hallomi Wrap">حلوم راب</option>
-                            <option value="Club Sandwich">كلوب ساندوتش</option>
-                            <option value="Egg Shkshoka">بيض شكشوكة</option>
-                            <option value="Egg Spinach">بيض سبانخ</option>
-                            <option value="Oats">شوفان</option>
-                            <option value="Protein Oats">شوفان مع بروتين</option>
-                            <option value="PP&G Oats">بي جي جي شوفان</option>
-                            <option value="Lean & Mean Cheese Burger">لين اند مين تشيز برجر</option>
-                            <option value="Asian Sesame Ginger">سلطة سمسم الزنجبيل</option>
-                            <option value="Chicken Cesar Salad">سلطة دجاج سيزر</option>
-                            <option value="Quinoa Salad">سلطة كينوا</option>
-                            <option value="Italiano Salad">سلطة ايطاليانو</option>
-                            <option value="Mardi Gars Salad">سلطة ماردي غراس</option>
-                            <option value="Shrimp Biryani">برياني روبيان</option>
-                            <option value="Beef Biryani">برياني لحم</option>
-                            <option value="Chicken Biryani">برياني دجاج</option>
-                            <option value="Beef Kabab (Bowl)">كباب لحم صحن</option>
-                            <option value="Godfather">جود فاذر</option>
-                            <option value="Grilled Salmon Entree">جريلد سالمون انتري</option>
-                            <option value="Grilled Chicken Etree">جريلد تشيكن انتري</option>
-                            <option value="Salmon White Sauce">سالمون الصلصة البيضاء</option>
-                            <option value="Chicken Kabab (Bowl)">كباب دجاج صحن</option>
-                            <option value="Teriyaki Stir Fry">ترياكي ستير فراي</option>
-                            <option value="Chicken Lemon">دجاج بصلصة الليمون</option>
-                            <option value="Santa Ana">سانتا انا</option>
-                            <option value="Arizona">أريزونا</option>
-                            <option value="El-Mexican">المكسيكان</option>
-                            <option value="Chicken Butter">دجاج بصلصة الزبدة</option>
-                            <option value="Chicken Kabsah">كبسة دجاج (يوم الاحد فقط)</option>
-                            <option value="Boneless BBQ">بايتس باريكيو</option>
-                            <option value="Boneless Buffalo">بايتس بافلو</option>
-                            <option value="Boneless Teriyaki">بايتس ترياكي</option>
-                            <option value="Premiun">برجر بريميم</option>
-                            <option value="Vegetable Burger">برجر خضراوات</option>
-                            <option value="Jalapeno Burger">برجر هالبينو</option>
-                            <option value="Mini Burger">برجر ميني</option>
-                            <option value="Mushroom Supreme">برجر مشروم سوبريم</option>
-                            <option value="California Club">برجر كاليفورنا كلوب</option>
-                            <option value="Chicken Burger">برجر دجاج</option>
-                            <option value="Recovery">برجر ريكفري</option>
-                            <option value="Quinoa Wrap">الكينوا راب</option>
-                            <option value="MMG Wrap">الراب الخاص بنا</option>
-                            <option value="Xxl Wrap">اكس اكس ال راب</option>
-                            <option value="Ye Ha Wrap">يي ها راب</option>
-                            <option value="Beef Kabab Wrap">كباب لحم راب</option>
-                            <option value="Chicken Kabab Wrap">كباب دجاج راب</option>
-                            <option value="Vege Wrap">في جي راب</option>
-                            <option value="Chicken Cesar Wrap">تشيكن سيزر راب</option>
-                            <option value="Santa Fe Wrap">سانتا في راب</option>
-                            <option value="Rocky Wrap">روكي راب</option>
-                            <option value="Tex Mex Fajita">تكس مكس فاهيتا راب</option>
-                            <option value="Chicken BBQ Wrap">تشيكن باربكيو راب</option>
-                            <option value="Griled Chicken">دجاج</option>
-                            <option value="Beef Steak Mushroom Sauce"> ستيك لحم مع مشروم صوص</option>
-                            <option value="Grilled Shrimp">روبيان</option>
-                            <option value="Spagetti Bolo">سباجيتي بولونيز</option>
-                            <option value="Pesto Pasta">بيستو دجاج</option>
-                            <option value="Pesto Spagetti">بيستو سباجيتي</option>
-                            <option value="Mediterranean Past">مكرونة البحر المتوسط</option>
-                            <option value="Cajun Chicken Pene">كاجون بيني تشيكن</option>
-                            <option value="Penne&Chicken">بيني اند تشيكن</option>
-                            <option value="Chicken White Pasta">مكرونة الدجاج بالصوص الابيض</option>
-                            <option value="Lasagna">لازانيا (يوم الخميس فقط)</option>
-                            <option value="MMG Pizza">بيتزا مصل ميكر</option>
-                            <option value="Pepperoni">بيتزا بيبروني</option>
-                            <option value="Vege Pizza">بيتزا خضار</option>
-                            <option value="Flex Fuel Pizza">بيتزا فليكس فيول</option>
-                            <option value="Chicken BBQ Pizza">بيتزا دجاج باربكيو</option>
-                            <option value="Buffalo Pizza">بيتزا بافلو</option>
-                            <option value="Calssic White">بيتزا كلاسيك وايت</option>
-                            <option value="The Works">بيتزا ذا ووركس</option>
-                            <option value="________">____الاصناف الجديدة____</option>
-                            <option value="Chicken Roll Mushroom">دجاج رول مشروم (يوم السبت والاحد)</option>                            
-                            <option value="Chicken Roll Spinach">دجاج رول سبانخ (يوم السبت والاحد)</option>                            
-                            <option value="Sweet & Chilli Chicken">دجاج سويت & شيلي (يوم الاثنين والثلاثاء)</option>                            
-                            <option value="Chicken Strips Mushroom">دجاج شرائح بالمشروم (يوم الاثنين والثلاثاء)</option>                            
-                            <option value="Meatballs White Sauce">كرات اللحم السويديه بالصوص الابيض (يوم الاربعاء والخميس)</option>                            
-                            <option value="Meatballs Mushroom Sauce">كرات اللحم السويديه بصوص المشروم (يوم الاربعاء والخميس)</optin
-                            
+<option value="0">اختر الوجبة</option>
+          <option value="Flex Fuel(Bowl)">فليكس فيول صحن</option>
+          <option value="Flex Fuel(Pizza)">فليكس فيول بيتزا</option>
+          <option value="The Western(Bowl)">ذا ويسترن صحن</option>
+          <option value="The Western(Wrap)">ذا ويسترن راب</option>
+          <option value="The Philly(Bowl)">ذا فيلي صحن</option>
+          <option value="The Philly(Wrap)">ذا فيلي راب</option>
+          <option value="The Garden(Bowl)">ذا جاردن صحن</option>
+          <option value="The Garden(Wrap)">ذا جاردن راب</option>
+          <option value="Hallomi Sandwich">حلوم ساندوتش</option>
+          <option value="Hallomi Zater">حلوم زعتر</option>
+          <option value="Hallomi Wrap">حلوم راب</option>
+          <option value="Club Sandwich">كلوب ساندوتش</option>
+          <option value="Egg Shkshoka">بيض شكشوكة</option>
+          <option value="Egg Spinach">بيض سبانخ</option>
+          <option value="Oats">شوفان</option>
+          <option value="Protein Oats">شوفان ع بروتين</option>
+          <option value="PP&G Oats">بي جي جي شوفان</option>
+          <option value="Lean & Mean Cheese Burger">لين اند مين تشيز برجر</option>
+          <option value="Asian Sesame Ginger">سلطة سمسم الزنجبيل</option>
+          <option value="Chicken Cesar Salad">سلطة دجاج سيزر</option>
+          <option value="Quinoa Salad">سلطة كينوا</option>
+          <option value="Italiano Salad">سلطة ايطاليانو</option>
+          <option value="Mardi Gars Salad">سلطة ماردي غراس</option>
+          <option value="Shrimp Biryani">برياني روبيان</option>
+          <option value="Beef Biryani">برياني لحم</option>
+          <option value="Chicken Biryani">برياني دجاج</option>
+          <option value="Beef Kabab (Bowl)">كباب لحم صحن</option>
+          <option value="Godfather">جود فاذر</option>
+          <option value="Grilled Salmon Entree">جريلد سالمون انتري</option>
+          <option value="Grilled Chicken Etree">جريلد تشيكن انتري</option>
+          <option value="Salmon White Sauce">سالمون الصلصة البيضاء</option>
+          <option value="Chicken Kabab (Bowl)">كباب دجاج صحن</option>
+          <option value="Teriyaki Stir Fry">ترياكي ستير فراي</option>
+          <option value="Chicken Lemon">دجاج بصلصة الليمون</option>
+          <option value="Santa Ana">سانتا انا</option>
+          <option value="Arizona">أريزونا</option>
+          <option value="El-Mexican">المكسيكان</option>
+          <option value="Chicken Butter">دجاج بصلصة الزبدة</option>
+          <option value="Crispy Chicken">دجاج مقرمش</option>
+          <option value="Crispy Chicken Pasta">دجاج مقرمش مع مكرونة</option>
+          <option value="Chicken Kabsah">كبسة دجاج (يوم الاحد فقط)</option>
+          <option value="Boneless BBQ">بايتس باريكيو</option>
+          <option value="Boneless Buffalo">بايتس بافلو</option>
+          <option value="Boneless Teriyaki">بايتس ترياكي</option>
+          <option value="Premiun">برجر بريميم</option>
+          <option value="Vegetable Burger">برجر خضراوات</option>
+          <option value="Jalapeno Burger">برجر هالبينو</option>
+          <option value="Mini Burger">برجر ميني</option>
+          <option value="Mushroom Supreme">برجر مشروم سوبريم</option>
+          <option value="California Club">برجر كاليفورنا كلوب</option>
+          <option value="Chicken Burger">برجر دجاج</option>
+          <option value="Recovery">برجر ريكفري</option>
+          <option value="Quinoa Wrap">الكينوا راب</option>
+          <option value="MMG Wrap">الراب الخاص بنا</option>
+          <option value="Xxl Wrap">اكس اكس ال راب</option>
+          <option value="Ye Ha Wrap">يي ها راب</option>
+          <option value="Beef Kabab Wrap">كباب لحم راب</option>
+          <option value="Chicken Kabab Wrap">كباب دجاج راب</option>
+          <option value="Vege Wrap">في جي راب</option>
+          <option value="Chicken Cesar Wrap">تشيكن سيزر راب</option>
+          <option value="Santa Fe Wrap">سانتا في راب</option>
+          <option value="Rocky Wrap">روكي راب</option>
+          <option value="Tex Mex Fajita">تكس مكس فاهيتا راب</option>
+          <option value="Chicken BBQ Wrap">تشيكن باربكيو راب</option>
+          <option value="Griled Chicken">دجاج</option>
+          <option value="Beef Steak Mushroom Sauce">ستيك لحم مشروم صوص</option>
+          <option value="Grilled Shrimp">روبيان</option>
+          <option value="Spagetti Bolo">سباجيتي بولونيز</option>
+          <option value="Pesto Pasta">بيستو دجاج</option>
+          <option value="Pesto Spagetti">بيستو سباجيتي</option>
+          <option value="Mediterranean Pasta">مكرونة البحر المتوسط</option>
+          <option value="Cajun Chicken Pene">كاجون بيني تشيكن</option>
+          <option value="Penne&Chicken">بيني اند تشيكن</option>
+          <option value="Chicken White Pasta">مكرونة الدجاج بالصوص الابيض</option>
+          <option value="Lasagna">لازانيا (يوم الخميس فقط)</option>
+          <option value="MMG Pizza">بيتزا مصل ميكر</option>
+          <option value="Pepperoni">بيتزا بيبروني</option>
+          <option value="Vege Pizza">بيتزا خضار</option>
+          <option value="Flex Fuel Pizza">بيتزا فليكس فيول</option>
+          <option value="Chicken BBQ Pizza">بيتزا دجاج باربكيو</option>
+          <option value="Buffalo Pizza">بيتزا بافلو</option>
+          <option value="Calssic White">بيتزا كلاسيك وايت</option>
+          <option value="The Works">بيتزا ذا ووركس</option>
+
+          <option value="__new_meals__" disabled>____ الوجبات الجديدة ____</option>
+          <option value="Chicken Roll Mushroom">دجاج رول مشروم (يوم السبت والاحد)</option>
+          <option value="Chicken Roll Spinach">دجاج رول سبانخ (يوم السبت والاحد)</option>
+          <option value="Sweet & Chilli Chicken">دجاج سويت & شيلي (يوم الاثنين والثلاثاء)</option>
+          <option value="Chicken Strips Mushroom">دجاج شرائح بالمشروم (يوم الاثنين والثلاثاء)</option>
+          <option value="Meatballs White Sauce">كرات اللحم السويديه بالصوص الابيض (يوم الاربعاء والخميس)</option>
+          <option value="Meatballs Mushroom Sauce">كرات اللحم السويديه بصوص المشروم (يوم الاربعاء والخميس)</option>
+
+          <option value="__ramadan_header__" disabled>____ الأطباق الرمضانية ____</option>
+          <option value="Topkapi Chicken">دجاج توب كابي — Topkapi Chicken</option>
+          <option value="Chicken with Molokhia">دجاج بالملوخية — Chicken with Molokhia</option>
+          <option value="Chicken Cordon Bleu">كوردون بلو — Chicken Cordon Bleu</option>
+          <option value="Chicken Balls">كرات الدجاج — Chicken Balls</option>
+          <option value="Beef Stroganoff">بيف ستروغانوف — Beef Stroganoff</option>
                     `;
 
                     const carbSelect = document.createElement('select');
@@ -350,7 +677,11 @@
                     snackSelect.name = `snack${day}${i}`;
                     snackSelect.innerHTML = `<option value="" disabled selected>اختر السناك</option>`;
                     snackOptionsByDay[day].forEach(snack => {
+                        if (typeof snack === "string" && snack.startsWith("##SEP##")) {
+                        snackSelect.innerHTML += `<option value="" disabled>${snack.replace("##SEP##","")}</option>`;
+                    } else {
                         snackSelect.innerHTML += `<option value="${snack}">${snack}</option>`;
+                    }
                     });
                     options.appendChild(snackSelect);
                 }
